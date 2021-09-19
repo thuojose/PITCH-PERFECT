@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, url_for,abort
 from ..models import Pitch, User, Comment, Upvote, Downvote
 from flask_login import login_required, current_user
 from .forms import PitchForm,CommentForm
@@ -83,3 +83,12 @@ def downvote(pitch_id):
     new_downvote = Downvote(pitch_id=pitch_id, user = current_user)
     new_downvote.save_downvotes()
     return redirect(url_for('main.index'))
+
+@main.route('/user/<uname>')
+def profile(uname):
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+
+    return render_template('profile/profile.html', user = user)
