@@ -1,7 +1,10 @@
-from flask import render_template
-from ..models import Pitch
+from flask import render_template, redirect, url_for
+from ..models import Pitch, User, Comment, Upvote, Downvote
+from flask_login import login_required, current_user
+from .forms import PitchForm
 from . import main
-@main.route('/',)
+from .. import db
+@main.route('/',methods = ['GET', 'POST'])
 def index():
     '''
     View root page function that returns the index page and it's data
@@ -15,3 +18,23 @@ def index():
     productpitch = Pitch.query.filter_by(category='productpitch')
     
     return render_template('home.html',title= title,intro = descr, pitch = pitch, pickuplines = pickuplines, interviewpitch = interviewpitch, promotionpitch = promotionpitch, productpitch = productpitch)
+
+@main.route('/pitches/new/', methods = ['GET', 'POST'])
+@login_required
+def new_pitch():
+    form = PitchForm()
+    my_upvotes = Upvote.query.filter_by(pitch_id = Pitch.id)
+    if form.validate_on_submit():
+        description = form.description.data
+        title = form.title.data
+        owner_id = current_user
+        category = form.category.data
+        # print(current_user._get_current_object().id, title = title,description=description,category=category)
+        new_pitch = Pitch(owner_id=current_user._get_current_object().id, title=title, description=description, category
+        =category)
+        db.session.add(new_pitch)
+        db.session.commit()
+
+        return redirect(url_for('main.index'))
+
+    return render_template('pitches.html', form=form)
