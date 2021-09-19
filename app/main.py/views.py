@@ -1,7 +1,7 @@
 from flask import render_template, redirect, url_for
 from ..models import Pitch, User, Comment, Upvote, Downvote
 from flask_login import login_required, current_user
-from .forms import PitchForm
+from .forms import PitchForm,CommentForm
 from . import main
 from .. import db
 @main.route('/',methods = ['GET', 'POST'])
@@ -38,3 +38,20 @@ def new_pitch():
         return redirect(url_for('main.index'))
 
     return render_template('pitches.html', form=form)
+
+@main.route('/comment/new/<int:pitch_id>', methods = ['GET', 'POST'])
+@login_required
+def new_comment(pitch_id):
+    form = CommentForm()
+    pitch = Pitch.query.get(pitch_id)
+    if form.validate_on_submit():
+        description = form.description.data
+
+        new_comment = Comment(description = description, user_id = current_user._get_current_object().id, pitch_id = pitch_id)
+        db.session.add(new_comment)
+        db.session.commit()
+
+        return redirect(url_for('.new_comment', pitch_id = pitch_id))
+
+    all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
+    return render_template('comments.html', form = form, comment = all_comments, pitch = pitch)
