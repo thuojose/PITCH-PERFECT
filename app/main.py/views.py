@@ -1,9 +1,11 @@
-from flask import render_template, redirect, url_for,abort
+from flask import render_template, request,redirect, url_for,abort
 from ..models import Pitch, User, Comment, Upvote, Downvote
 from flask_login import login_required, current_user
-from .forms import PitchForm,CommentForm
+from .forms import PitchForm,CommentForm,UpdateProfile
 from . import main
-from .. import db
+from .. import db,photos
+
+
 @main.route('/',methods = ['GET', 'POST'])
 def index():
     '''
@@ -17,6 +19,8 @@ def index():
     promotionpitch = Pitch.query.filter_by(category='promotionpitch')
     productpitch = Pitch.query.filter_by(category='productpitch')
     
+    upvotes = Upvote.get_all_upvotes(pitch_id=Pitch.id)
+
     return render_template('home.html',title= title,intro = descr, pitch = pitch, pickuplines = pickuplines, interviewpitch = interviewpitch, promotionpitch = promotionpitch, productpitch = productpitch)
 
 @main.route('/pitches/new/', methods = ['GET', 'POST'])
@@ -39,6 +43,7 @@ def new_pitch():
 
     return render_template('pitches.html', form=form)
 
+
 @main.route('/comment/new/<int:pitch_id>', methods = ['GET', 'POST'])
 @login_required
 def new_comment(pitch_id):
@@ -55,6 +60,7 @@ def new_comment(pitch_id):
 
     all_comments = Comment.query.filter_by(pitch_id = pitch_id).all()
     return render_template('comments.html', form = form, comment = all_comments, pitch = pitch)
+
 
 @main.route('/pitch/upvote/<int:pitch_id>/upvote', methods = ['GET', 'POST'])
 @login_required
@@ -92,3 +98,34 @@ def profile(uname):
         abort(404)
 
     return render_template('profile/profile.html', user = user)
+@main.route('/user/<uname>/update', methods = ['GET', 'POST'])
+@login_required
+def update_profile(uname):
+    user = User.query.filter_by(username = uname).first()
+
+    if user is None:
+        abort(404)
+
+    form = UpdateProfile()
+
+    if form.validate_on_submit():
+        user.bio = form.bio.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile', uname=user.username))
+
+    return render_template('profile/update.html', form = form)
+
+
+@main.route('/user/<uname>/update/pic',methods= ['POST'])
+@login_required
+def update_pic(uname):
+    user = User.query.filter_by(username = uname).first()
+    if 'photo' in request.files:
+        filename = photos.save(request.files['photo'])
+        path = f'photos/{filename}'
+        user.profile_pic_path = path
+        db.session.commit()
+    return redirect(url_for('main.profile',uname=uname))
