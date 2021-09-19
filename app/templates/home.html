@@ -1,0 +1,49 @@
+{% block navbar %}
+{% include 'navbar.html' %}
+{% endblock %}
+
+<!-- Styles block -->
+<!-- {% block styles%}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+{% endblock %} -->
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">Last Pitch</h1>
+    <p class="width text-center lead">{{ intro }}</p>
+    <div class="tabbable-panel">
+        <div class="tabbable-line">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+                <li class="active">
+                    <a href="#product" class="nav-link" data-toggle="tab">Product Pitches</a>
+                </li>
+                <li>
+                    <a href="#interview" class="nav-link" data-toggle="tab">Interview Pitches</a>
+                </li>
+                <li>
+                    <a href="#pickupline" class="nav-link" data-toggle="tab">Pick-Up Lines</a>
+                </li>
+                <li>
+                    <a href="#promotion" class="nav-link" data-toggle="tab">Promotional Pitches</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="tab-content">
+        <div id="product" class="tab-pane active">
+            {{ macro.display(productpitch) }}
+        </div>
+        <div id="interview" class="tab-pane">
+            <span>{{ macro.display(interviewpitch) }}</span>
+        </div>
+        <div id="pickupline" class="tab-pane">
+            {{ macro.display(pickuplines) }}
+        </div>
+        <div id="promotion" class="tab-pane">
+            {{ macro.display(promotionpitch) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
