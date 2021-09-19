@@ -1,0 +1,44 @@
+{% extends 'bootstrap/base.html' %}
+{% macro display(category_list) %}
+<div class="row mt">
+    {% if category_list %}
+        {% for category in category_list %}
+        <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6 col-xl-12">
+            <div class="thumbnail text-center">
+                <h3>{{category.title}}</h3>
+                <hr>
+                <div>
+                    <blockquote>
+                        <h4>{{category.description}}</h4>
+                        <footer>
+                            Posted by {{category.user.username}}
+                        </footer>
+                    </blockquote>
+                    <hr>
+
+                    <a href="{{url_for('main.new_comment',pitch_id = category.id)}}" class="btn btn-default">Comments</a>
+                    <a href="{{url_for('main.upvote', pitch_id = category.id)}}" class="btn btn-success">Upvote <span>{{category.upvotes.count()}}</span></a>
+                    <a href="{{url_for('main.downvote', pitch_id = category.id)}}" class="btn btn-warning">Downvote <span>{{category.downvotes.count()}}</span></a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    {% endif %}
+</div>
+{% endmacro %}
+
+
+{% macro displayComment(comment) %}
+<div class="row mt">
+    {% if comment %}
+        {% for new_comment in comment %}
+        <div class="col-md-12">
+            <h4>{{ new_comment.user.username }}</h4>
+            <p>{{ new_comment.description }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+    {% endif %}
+</div>
+{% endmacro %}
