@@ -39,7 +39,7 @@ class User(UserMixin, db.Model):
 
 
 class Pitch(db.Model):
-    
+
     __tablename__ = 'pitches'
     id = db.Column(db.Integer, primary_key = True)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
@@ -60,7 +60,7 @@ class Pitch(db.Model):
 
 
 class Comment(db.Model):
-    
+
     __tablename__ = 'comments'
     id = db.Column(db.Integer, primary_key = True)
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'), nullable = False)
@@ -99,10 +99,10 @@ class Upvote(db.Model):
 
     def __repr__(self):
         return f'{self.user_id}: {self.pitch_id}'
-    
-    
-    class Downvote(db.Model):
-        __tablename__ = 'downvotes'
+
+
+class Downvote(db.Model):
+    __tablename__ = 'downvotes'
     id = db.Column(db.Integer, primary_key = True)
     downvote = db.Column(db.Integer, default=1)
     pitch_id = db.Column(db.Integer, db.ForeignKey('pitches.id'))
