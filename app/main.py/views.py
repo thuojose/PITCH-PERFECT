@@ -4,7 +4,7 @@ from flask_login import login_required, current_user
 from .forms import PitchForm,CommentForm,UpdateProfile
 from . import main
 from .. import db,photos
-
+from flask.views import View, MethodView
 
 @main.route('/',methods = ['GET', 'POST'])
 def index():
