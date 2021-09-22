@@ -1,5 +1,5 @@
 import unittest
-from app.models import Pitch, Comment,User
+from app.models import Pitch, Comment,User,Comment_content
 from app import db
 
 class TestPitch(unittest.TestCase):
@@ -25,5 +25,5 @@ class TestPitch(unittest.TestCase):
 
 
     def test_check_instance_variables(self):
-        self.assertEquals(self.new_comment, Comment, "I love this")
+        self.assertEquals(self.new_comment, Comment_content, "I love this")
         self.assertEquals(self.new_comment.pitch, self.new_pitch, "Amazing pitch")
