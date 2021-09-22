@@ -12,7 +12,7 @@ def index():
     View root page function that returns the index page and it's data
     '''
     title = 'Last Pitch'
-    descr = 'The Last Pitch application allows users to submit their one minute pitches and other users will vote on them and leave comments to give their feedback. The pitches are organized by category.'
+    descr = 'Pitch-Perfect application allows users to submit their one minute pitches and other users will vote on them and leave comments to give their feedback. The pitches are organized by category.'
     pitch = Pitch.query.filter_by().first()
     pickuplines = Pitch.query.filter_by(category='pickuplines')
     interviewpitch = Pitch.query.filter_by(category='interviewpitch')
@@ -98,6 +98,7 @@ def profile(uname):
         abort(404)
 
     return render_template('profile/profile.html', user = user)
+
 @main.route('/user/<uname>/update', methods = ['GET', 'POST'])
 @login_required
 def update_profile(uname):
@@ -117,15 +118,3 @@ def update_profile(uname):
         return redirect(url_for('.profile', uname=user.username))
 
     return render_template('profile/update.html', form = form)
-
-
-# @main.route('/user/<uname>/update/pic',methods= ['POST'])
-# @login_required
-# def update_pic(uname):
-#     user = User.query.filter_by(username = uname).first()
-#     if 'photo' in request.files:
-#         filename = photos.save(request.files['photo'])
-#         path = f'photos/{filename}'
-#         user.profile_pic_path = path
-#         db.session.commit()
-#     return redirect(url_for('main.profile',uname=uname))
