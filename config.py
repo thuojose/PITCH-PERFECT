@@ -4,7 +4,7 @@ class Config:
     '''
     General configuration parent class
     '''
-    SECRET_KEY = 'uncrackablesecretkey'
+    SECRET_KEY = 'f2bde48933e13cdebe17'
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     UPLOADED_PHOTOS_DEST ='app/static/photos'
 
@@ -43,7 +43,7 @@ class DevConfig(Config):
     Args:
         Config: The parent configuration class with general configuration settings
     '''
-    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://moringa:p@$$w0rd@localhost/pitching'
+    SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://khalyz:1234@localhost/pitch'
     DEBUG = True
     
 config_options = {
