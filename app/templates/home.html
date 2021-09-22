@@ -1,16 +1,11 @@
-{% block navbar %}
+{% extends 'bootstrap/base.html' %}
+{% import 'macros.html' as macro %}{% block navbar %}
 {% include 'navbar.html' %}
 {% endblock %}
 
-<!-- Styles block -->
-<!-- {% block styles%}
-{{ super() }}
-<link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
-{% endblock %} -->
-
 {% block content %}
 <div class="container">
-    <h1 class="text-center">Last Pitch</h1>
+    <h1 class="text-center">PITCH-PERTECT</h1>
     <p class="width text-center lead">{{ intro }}</p>
     <div class="tabbable-panel">
         <div class="tabbable-line">
