@@ -5,6 +5,7 @@ class Config:
     General configuration parent class
     '''
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    UPLOADED_PHOTOS_DEST ='app/static/photos'
     SECRET_KEY=os.environ.get("SECRET_KEY")
 
     #  email configurations
