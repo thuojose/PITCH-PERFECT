@@ -12,7 +12,7 @@ manager = Manager(app)
 # Migrate instance
 migrate = Migrate(app,db)
 
-manager.add_command('server', Server)
+manager.add_command('server',Server)
 manager.add_command('db', MigrateCommand)
 
 @manager.command
