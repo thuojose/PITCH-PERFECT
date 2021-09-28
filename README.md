@@ -5,7 +5,7 @@ thuojose
 
 ## Description
 
-Pitch App is a web application that displays a list of pitches. One is able to view pitches by other users, create their own pitches, and other users can upvote,downvote&comment on the pitches.
+Pitch App is a web application that displays a list of pitches. One is able to view pitches by other users, create their own pitches,and other users can upvote,downvote&comment on the pitches.
 
 ## User Stories
 
